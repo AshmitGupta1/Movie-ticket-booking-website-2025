@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { BarChart3, DollarSign, Ticket, Users } from 'lucide-react';
+import { BarChart3, DollarSign, Ticket, Users, Plus, List } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
 
@@ -49,6 +50,31 @@ const AdminDashboard = () => {
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
 
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <Link
+            to="/admin/add-show"
+            className="bg-gray-800 hover:bg-gray-700 rounded-lg p-4 flex items-center space-x-3 transition"
+          >
+            <Plus className="w-8 h-8 text-red-500" />
+            <span className="font-semibold">Add New Show</span>
+          </Link>
+          <Link
+            to="/admin/shows"
+            className="bg-gray-800 hover:bg-gray-700 rounded-lg p-4 flex items-center space-x-3 transition"
+          >
+            <List className="w-8 h-8 text-blue-500" />
+            <span className="font-semibold">Manage Shows</span>
+          </Link>
+          <Link
+            to="/admin/bookings"
+            className="bg-gray-800 hover:bg-gray-700 rounded-lg p-4 flex items-center space-x-3 transition"
+          >
+            <Ticket className="w-8 h-8 text-green-500" />
+            <span className="font-semibold">View All Bookings</span>
+          </Link>
+        </div>
+
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-gray-800 rounded-lg p-6">
@@ -84,7 +110,15 @@ const AdminDashboard = () => {
 
         {/* Recent Bookings */}
         <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold mb-4">Recent Bookings</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">Recent Bookings</h2>
+            <Link
+              to="/admin/bookings"
+              className="text-red-500 hover:text-red-400 text-sm font-semibold"
+            >
+              View All →
+            </Link>
+          </div>
           
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -99,7 +133,7 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {bookings.slice(0, 10).map((booking) => (
+                {bookings.slice(0, 5).map((booking) => (
                   <tr key={booking._id} className="border-b border-gray-700">
                     <td className="py-3 px-4">{booking.user?.name || 'N/A'}</td>
                     <td className="py-3 px-4">{booking.show?.movie?.title || 'N/A'}</td>
@@ -131,7 +165,15 @@ const AdminDashboard = () => {
 
         {/* Active Shows */}
         <div className="bg-gray-800 rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-4">Active Shows</h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">Active Shows</h2>
+            <Link
+              to="/admin/shows"
+              className="text-red-500 hover:text-red-400 text-sm font-semibold"
+            >
+              Manage Shows →
+            </Link>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {shows.slice(0, 6).map((show) => (
