@@ -19,10 +19,10 @@ router.get('/search', apiLimiter, searchMovies);
 router.get('/movie/:id', apiLimiter, getMovieDetails);
 
 // Show routes
-router.post('/', createShow);
+router.post('/', apiLimiter, createShow);
 router.get('/', apiLimiter, getAllShows);
 router.get('/by-movie/:movieId', apiLimiter, getShowsByMovie);
 router.get('/:id', apiLimiter, getShowById);
-router.delete('/:id', deleteShow);
+router.delete('/:id', apiLimiter, deleteShow);
 
 export default router;
