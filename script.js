@@ -73,6 +73,10 @@ let selectedMovie = null;
 let selectedShowtime = null;
 let selectedSeats = [];
 
+// Constants
+const SEAT_ROWS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+const SEATS_PER_ROW = 10;
+
 // Initialize homepage
 function initHomePage() {
     if (document.getElementById('moviesGrid')) {
@@ -191,13 +195,11 @@ function loadBookingInfo() {
 // Generate seats
 function generateSeats() {
     const seatsContainer = document.getElementById('seatsContainer');
-    const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-    const seatsPerRow = 10;
 
     // Generate random occupied seats (20% of total seats)
-    const occupiedSeats = generateRandomOccupiedSeats(rows.length * seatsPerRow, 0.2);
+    const occupiedSeats = generateRandomOccupiedSeats(SEAT_ROWS.length * SEATS_PER_ROW, 0.2);
 
-    rows.forEach(row => {
+    SEAT_ROWS.forEach(row => {
         const rowDiv = document.createElement('div');
         rowDiv.className = 'row';
 
@@ -206,7 +208,7 @@ function generateSeats() {
         rowLabel.textContent = row;
         rowDiv.appendChild(rowLabel);
 
-        for (let i = 1; i <= seatsPerRow; i++) {
+        for (let i = 1; i <= SEATS_PER_ROW; i++) {
             const seat = document.createElement('div');
             seat.className = 'seat';
             const seatId = `${row}${i}`;
@@ -228,12 +230,11 @@ function generateSeats() {
 // Generate random occupied seats
 function generateRandomOccupiedSeats(totalSeats, percentage) {
     const occupied = [];
-    const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     const numOccupied = Math.floor(totalSeats * percentage);
 
     while (occupied.length < numOccupied) {
-        const row = rows[Math.floor(Math.random() * rows.length)];
-        const seatNum = Math.floor(Math.random() * 10) + 1;
+        const row = SEAT_ROWS[Math.floor(Math.random() * SEAT_ROWS.length)];
+        const seatNum = Math.floor(Math.random() * SEATS_PER_ROW) + 1;
         const seatId = `${row}${seatNum}`;
         
         if (!occupied.includes(seatId)) {
@@ -296,7 +297,10 @@ function processBooking() {
         return;
     }
 
-    const bookingId = 'BK' + Date.now().toString().substring(7);
+    // Generate a more robust booking ID with random component
+    const timestamp = Date.now().toString().substring(7);
+    const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    const bookingId = 'BK' + timestamp + random;
     const total = selectedSeats.length * selectedMovie.price;
 
     const booking = {
