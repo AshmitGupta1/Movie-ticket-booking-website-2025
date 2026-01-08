@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - CineBook</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🎬 CineBook</h1>
+            <nav>
+                <a href="index.html">Movies</a>
+                <a href="#bookings">My Bookings</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="confirmation-container">
+            <div class="success-icon">✓</div>
+            <h2>Booking Confirmed!</h2>
+            <p class="confirmation-message">Your tickets have been successfully booked.</p>
+
+            <div class="ticket">
+                <div class="ticket-header">
+                    <h3>E-Ticket</h3>
+                    <span class="booking-id" id="bookingId">BOOKING-ID</span>
+                </div>
+                <div class="ticket-body">
+                    <div class="ticket-row">
+                        <span class="label">Movie:</span>
+                        <span class="value" id="confirmMovie">--</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="label">Date & Time:</span>
+                        <span class="value" id="confirmShowtime">--</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="label">Seats:</span>
+                        <span class="value" id="confirmSeats">--</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="label">Name:</span>
+                        <span class="value" id="confirmName">--</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="label">Email:</span>
+                        <span class="value" id="confirmEmail">--</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="label">Phone:</span>
+                        <span class="value" id="confirmPhone">--</span>
+                    </div>
+                    <div class="ticket-row total-row">
+                        <span class="label">Total Amount:</span>
+                        <span class="value" id="confirmTotal">--</span>
+                    </div>
+                </div>
+                <div class="ticket-footer">
+                    <p>Please present this ticket at the cinema counter</p>
+                    <div class="barcode">||||  ||  ||||  ||  ||||  ||  ||||</div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button onclick="window.print()" class="btn-secondary">Print Ticket</button>
+                <a href="index.html" class="btn-primary">Book Another Movie</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CineBook. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
