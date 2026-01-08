@@ -1,4 +1,5 @@
 import express from 'express';
+import { bookingLimiter } from '../middleware/rateLimiter.js';
 import {
   createBooking,
   getUserBookings,
@@ -9,7 +10,7 @@ import {
 
 const router = express.Router();
 
-router.post('/create', createBooking);
+router.post('/create', bookingLimiter, createBooking);
 router.get('/user/:userId', getUserBookings);
 router.get('/', getAllBookings);
 router.get('/stats', getStats);

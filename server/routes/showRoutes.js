@@ -1,4 +1,5 @@
 import express from 'express';
+import { apiLimiter } from '../middleware/rateLimiter.js';
 import {
   getNowPlaying,
   searchMovies,
@@ -13,15 +14,15 @@ import {
 const router = express.Router();
 
 // TMDB routes
-router.get('/now-playing', getNowPlaying);
-router.get('/search', searchMovies);
-router.get('/movie/:id', getMovieDetails);
+router.get('/now-playing', apiLimiter, getNowPlaying);
+router.get('/search', apiLimiter, searchMovies);
+router.get('/movie/:id', apiLimiter, getMovieDetails);
 
 // Show routes
 router.post('/', createShow);
-router.get('/', getAllShows);
-router.get('/by-movie/:movieId', getShowsByMovie);
-router.get('/:id', getShowById);
+router.get('/', apiLimiter, getAllShows);
+router.get('/by-movie/:movieId', apiLimiter, getShowsByMovie);
+router.get('/:id', apiLimiter, getShowById);
 router.delete('/:id', deleteShow);
 
 export default router;
