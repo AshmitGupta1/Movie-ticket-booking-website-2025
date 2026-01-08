@@ -3,7 +3,7 @@ import Show from '../models/Show.js';
 import Stripe from 'stripe';
 import { inngest } from '../inngest/client.js';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 
 // Create a new booking
 export const createBooking = async (req, res) => {
@@ -13,6 +13,11 @@ export const createBooking = async (req, res) => {
     // Validate input
     if (!userId || !showId || !bookedSeats || bookedSeats.length === 0) {
       return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    // Check if Stripe is configured
+    if (!stripe) {
+      return res.status(500).json({ message: 'Payment system not configured' });
     }
 
     // Get show details

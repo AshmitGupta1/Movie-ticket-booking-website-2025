@@ -18,11 +18,18 @@ const MovieDetails = () => {
 
   const fetchMovieDetails = async () => {
     try {
+      // Fetch movie details from TMDB
       const movieResponse = await api.get(`/show/movie/${id}`);
       setMovie(movieResponse.data);
       
-      // In a real scenario, we'd fetch shows for this movie
-      // For now, we'll just show the movie details
+      // Fetch shows for this movie
+      try {
+        const showsResponse = await api.get(`/show/by-movie/${id}`);
+        setShows(showsResponse.data);
+      } catch (error) {
+        console.log('No shows available for this movie yet');
+      }
+      
       setLoading(false);
     } catch (error) {
       console.error('Error fetching movie details:', error);
@@ -162,9 +169,40 @@ const MovieDetails = () => {
             {/* Show Times */}
             <div>
               <h2 className="text-2xl font-semibold mb-4">Select Show Time</h2>
-              <p className="text-gray-400 mb-4">
-                Shows will be available once added by the admin
-              </p>
+              {shows.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {shows.map((show) => (
+                    <button
+                      key={show._id}
+                      onClick={() => navigate(`/seat-selection/${show._id}`)}
+                      className="bg-gray-700 hover:bg-red-500 rounded-lg p-3 text-left transition"
+                    >
+                      <div className="flex items-center space-x-2 mb-1">
+                        <Calendar className="w-4 h-4" />
+                        <span className="text-sm">
+                          {new Date(show.showDateTime).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <Clock className="w-4 h-4" />
+                        <span className="text-sm">
+                          {new Date(show.showDateTime).toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </span>
+                      </div>
+                      <p className="text-lg font-bold text-red-400">
+                        ${show.showPrice}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400 mb-4">
+                  Shows will be available once added by the admin
+                </p>
+              )}
             </div>
           </div>
         </div>

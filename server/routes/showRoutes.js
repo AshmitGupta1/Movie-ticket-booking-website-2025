@@ -20,8 +20,8 @@ router.get('/movie/:id', getMovieDetails);
 // Show routes
 router.post('/', createShow);
 router.get('/', getAllShows);
+router.get('/by-movie/:movieId', getShowsByMovie);
 router.get('/:id', getShowById);
-router.get('/movie/:movieId', getShowsByMovie);
 router.delete('/:id', deleteShow);
 
 export default router;

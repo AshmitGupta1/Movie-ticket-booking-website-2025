@@ -2,9 +2,13 @@ import Stripe from 'stripe';
 import Booking from '../models/Booking.js';
 import { inngest } from '../inngest/client.js';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 
 export const handleStripeWebhook = async (req, res) => {
+  if (!stripe) {
+    return res.status(500).json({ error: 'Payment system not configured' });
+  }
+
   const sig = req.headers['stripe-signature'];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
